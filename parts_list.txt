@@ -1,0 +1,16 @@
+Parts list for Barnabas maze-robot.
+
+Purchased Arduino R3 option:
+Arduino Uno R3  microcontroller development board
+
+
+Custom PCB microcontroller option:
+Deluxe ISP-6 programming shrouded header: FCI 75869-131LF
+Piezo
+Tempearture Sensor: DS18B20
+optional right angle 1/10" header for FTDI cable instead of Bluetooth: 68015-106HLF
+
+
+Motor controller board: L9110S
+5x Ultrasonic Rangefinders
+TCS230 color sensor http://howtomechatronics.com/tutorials/arduino/arduino-color-sensing-tutorial-tcs230-tcs3200-color-sensor/
