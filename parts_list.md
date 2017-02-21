@@ -13,7 +13,7 @@ Custom PCB microcontroller option:
 
 Parts mounted to the Robot Chassis
 - Motor controller board: L9110S, four motors with wheels
-- 5x Ultrasonic Rangefinders
+- 6x Ultrasonic Rangefinders https://www.robot-electronics.co.uk/htm/srf04tech.htm
 - TCS230 color sensor http://howtomechatronics.com/tutorials/arduino/arduino-color-sensing-tutorial-tcs230-tcs3200-color-sensor/
 - optional bump sensor(s) to detect if robot has hit an obstacle
 
