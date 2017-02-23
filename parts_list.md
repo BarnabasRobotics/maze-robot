@@ -13,7 +13,7 @@ Custom PCB microcontroller option:
 
 Parts mounted to the Robot Chassis
 - Motor controller board: L9110S, four motors with wheels
-- 6x Ultrasonic Rangefinders https://www.robot-electronics.co.uk/htm/srf04tech.htm
+- 6x Ultrasonic Rangefinders https://www.robot-electronics.co.uk/htm/srf04tech.htm  Note the issue described at http://mc-computing.com/Hardware_Platforms/Arduino/HC-SR04_Ultrasonic_Sensor.html and the workaround provided.  Some of the HC-SR04 sensors have a bug where the device gets stuck if an echo is not heard.  I'm encountering that and other behavior that makes them seem unreliable.  A software fix fix would be most welcome.  Also if a hardware pullup is not present on some rangefinders I'm going to investigate using a software pull up provided by the AVR microcontroller or adding a hardware one.
 - TCS230 color sensor http://howtomechatronics.com/tutorials/arduino/arduino-color-sensing-tutorial-tcs230-tcs3200-color-sensor/
 - optional bump sensor(s) to detect if robot has hit an obstacle
 
