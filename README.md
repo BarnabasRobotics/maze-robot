@@ -3,7 +3,7 @@ The idea is an inexpensive, flexible robotic system which would allow people to 
 This builds on the Barnabas Robotics Barnabas Car Kit.  https://squareup.com/store/barnabas-robotics/item/robot-car-kit
 
 Design goals:
-- Small, inexpensive four-wheeled car chassis
+- Small, inexpensive two-wheeled car chassis.  Two drive wheels, two castor wheels.
 - Arduino Uno or compatible microcontroller board
 - Microcontroller board is programmable via bluetooth, through standard Arduino IDE
 - Six ultrasonic rangefinders.  Two pointed to the left, two pointed to the right, one straight ahead, one to the rear.  The rangefinders work well to show the distance to objects from around 1 inch (2 cm) to 9 feet away (3 meters), but they have trouble when they aren't approximatley at a right angle to the object they are detecting.  If the angle is too great (over about 15 degrees) not enough of the sound bounces back for it to get a reliable range.
