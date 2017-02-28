@@ -32,10 +32,6 @@ unsigned long pingTimer[SONAR_NUM]; // Holds the times when the next ping should
 unsigned int cm[SONAR_NUM];         // Where the ping distances are stored.
 uint8_t currentSensor = 0;          // Keeps track of which sensor is active.
 
-byte speed = 255;   // speed for motor control
-byte left = 255;    // for motor control
-byte right = 255;   // for motor control
-
 NewPing sonar[SONAR_NUM] = {      // Sensor object array.
                                   // Each sensor's trigger pin, echo pin, and max distance to ping.
                                   //
@@ -58,10 +54,10 @@ void setup()
     pingTimer[i] = pingTimer[i - 1] + PING_INTERVAL;
   }
 
-  pinMode(AIA, OUTPUT); // set motor driver pins to output
-  pinMode(AIB, OUTPUT);
-  pinMode(BIA, OUTPUT);
-  pinMode(BIB, OUTPUT);
+  //pinMode(AIA, OUTPUT); // set motor driver pins to output
+  //pinMode(AIB, OUTPUT);
+  //pinMode(BIA, OUTPUT);
+  //pinMode(BIB, OUTPUT);
 }
 
 void loop() 
@@ -101,17 +97,27 @@ void oneSensorCycle()  // Sensor ping cycle complete, do something with the resu
   }
   //Serial.println();
 
+  const byte FULL_SPEED = 150;
+  const byte LOW_SPEED = 120;
 
-  if (cm[0] < cm[1])
+  if (cm[5] < 20) // if an obstacle is ahead
   {
+    move_forward(0,0);
+    Serial.println("Stop.");
+  }
+  else if (cm[4] < cm[3])
+  {
+    move_forward(LOW_SPEED, FULL_SPEED);
     Serial.println("Trim Left.");
   }
-  else if (cm[0] > cm[1])
+  else if (cm[4] > cm[3])
   {
+    move_forward(FULL_SPEED, LOW_SPEED);
     Serial.println("Trim Right.");
   }
   else
   {
+    move_forward(FULL_SPEED, FULL_SPEED);
     Serial.println("Walk forward.");
   }
 
