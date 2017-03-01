@@ -23,4 +23,7 @@ Parts mounted to the Robot Chassis
 - TCS230 color sensor http://howtomechatronics.com/tutorials/arduino/arduino-color-sensing-tutorial-tcs230-tcs3200-color-sensor/
 - optional bump sensor(s) to detect if robot has hit an obstacle
 - battery pack
-
+- ground effect lighting
+- left/right indicating lights
+- lights near front and rear sensors
+- optional SPI TFT LCD
