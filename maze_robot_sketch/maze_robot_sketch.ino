@@ -1,20 +1,7 @@
 // Barnabas Robotics Maze Robot
 // started from NewPing v1.8 example sketch NewPing15Sensors
 
-// ---------------------------------------------------------------------------
-// This example code was used to successfully communicate with 15 ultrasonic sensors. You can adjust
-// the number of sensors in your project by changing SONAR_NUM and the number of NewPing objects in the
-// "sonar" array. You also need to change the pins for each sensor for the NewPing objects. Each sensor
-// is pinged at 33ms intervals. So, one cycle of all sensors takes 495ms (33 * 15 = 495ms). The results
-// are sent to the "oneSensorCycle" function which currently just displays the distance data. Your project
-// would normally process the sensor results in this function (for example, decide if a robot needs to
-// turn and call the turn function). Keep in mind this example is event-driven. Your complete sketch needs
-// to be written so there's no "delay" commands and the loop() cycles at faster than a 33ms rate. If other
-// processes take longer than 33ms, you'll need to increase PING_INTERVAL so it doesn't get behind.
-// ---------------------------------------------------------------------------
-
-// http://www.bajdi.com
-// L9110 motor driver controlling 2 small DC motors 
+const byte ENABLE_MOTORS = 1;   // used to disable motors for software dev and sensor test
 
 #include <NewPing.h>
 
@@ -23,6 +10,7 @@
 #define PING_INTERVAL 50 // Milliseconds between sensor pings (29ms is about the min to avoid cross-sensor echo).
 
                     // connect motor controller pins as such:
+                 
 const int AIA = 9;  // (pwm) pin 9 connected to pin A-IA    Left Wheel
 const int AIB = 5;  // (pwm) pin 5 connected to pin A-IB    Left Wheel
 const int BIA = 10; // (pwm) pin 10 connected to pin B-IA   Right Wheel
@@ -54,10 +42,12 @@ void setup()
     pingTimer[i] = pingTimer[i - 1] + PING_INTERVAL;
   }
 
-  //pinMode(AIA, OUTPUT); // set motor driver pins to output
-  //pinMode(AIB, OUTPUT);
-  //pinMode(BIA, OUTPUT);
-  //pinMode(BIB, OUTPUT);
+  pinMode(AIA, OUTPUT); // set motor driver pins to output
+  pinMode(AIB, OUTPUT);
+  pinMode(BIA, OUTPUT);
+  pinMode(BIB, OUTPUT); 
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT); 
 }
 
 void loop() 
@@ -97,40 +87,69 @@ void oneSensorCycle()  // Sensor ping cycle complete, do something with the resu
   }
   //Serial.println();
 
-  const byte FULL_SPEED = 150;
-  const byte LOW_SPEED = 120;
+  const byte HIGH_SPEED = 255;
+  const byte LOW_SPEED = 100;
 
-  if (cm[5] < 20) // if an obstacle is ahead
+  if (1)
+  {
+    move_forward(HIGH_SPEED, HIGH_SPEED);
+  }
+  else if (cm[5] < 20) // if an obstacle is ahead
   {
     move_forward(0,0);
     Serial.println("Stop.");
+    digitalWrite(2, LOW);
+    digitalWrite(3, LOW);
+
   }
   else if (cm[4] < cm[3])
   {
-    move_forward(LOW_SPEED, FULL_SPEED);
+    move_forward(LOW_SPEED, HIGH_SPEED);
     Serial.println("Trim Left.");
+    digitalWrite(2, HIGH);
+    digitalWrite(3, LOW);
   }
   else if (cm[4] > cm[3])
   {
-    move_forward(FULL_SPEED, LOW_SPEED);
+    move_forward(HIGH_SPEED, LOW_SPEED);
     Serial.println("Trim Right.");
+    digitalWrite(2, LOW);
+    digitalWrite(3, HIGH);
   }
   else
   {
-    move_forward(FULL_SPEED, FULL_SPEED);
+    move_forward(HIGH_SPEED, HIGH_SPEED);
     Serial.println("Walk forward.");
-  }
-
-  
+    digitalWrite(2, HIGH);
+    digitalWrite(3, HIGH);
+  }  
 }
 
 // functions
 
 void move_forward(byte left, byte right)
 {
-  analogWrite(AIA, 0);
-  analogWrite(AIB, left);
-  analogWrite(BIA, 0);
-  analogWrite(BIB, right);
+  if (ENABLE_MOTORS)
+  {
+    analogWrite(AIA, 0);
+    analogWrite(AIB, left);
+    analogWrite(BIA, 0);
+    analogWrite(BIB, right);
+  }
 }
 
+// https://bitbucket.org/teckel12/arduino-new-ping/wiki/Home
+// ---------------------------------------------------------------------------
+// This example code was used to successfully communicate with 15 ultrasonic sensors. You can adjust
+// the number of sensors in your project by changing SONAR_NUM and the number of NewPing objects in the
+// "sonar" array. You also need to change the pins for each sensor for the NewPing objects. Each sensor
+// is pinged at 33ms intervals. So, one cycle of all sensors takes 495ms (33 * 15 = 495ms). The results
+// are sent to the "oneSensorCycle" function which currently just displays the distance data. Your project
+// would normally process the sensor results in this function (for example, decide if a robot needs to
+// turn and call the turn function). Keep in mind this example is event-driven. Your complete sketch needs
+// to be written so there's no "delay" commands and the loop() cycles at faster than a 33ms rate. If other
+// processes take longer than 33ms, you'll need to increase PING_INTERVAL so it doesn't get behind.
+// ---------------------------------------------------------------------------
+
+// http://www.bajdi.com
+// L9110 motor driver controlling 2 small DC motors 
