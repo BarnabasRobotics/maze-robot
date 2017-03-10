@@ -1,20 +1,17 @@
 // Barnabas Robotics Maze Robot
 // started from NewPing v1.8 example sketch NewPing15Sensors
 
-const byte ENABLE_MOTORS = 1;   // used to disable motors for software dev and sensor test
+const byte ENABLE_MOTORS = 1;   // used to disable motors for software development and sensor test
 
 #include <NewPing.h>
+#include <Servo.h>
 
 #define SONAR_NUM     6 // Number of sensors.
 #define MAX_DISTANCE 200 // Maximum distance (in cm) to ping.
 #define PING_INTERVAL 50 // Milliseconds between sensor pings (29ms is about the min to avoid cross-sensor echo).
 
-                    // connect motor controller pins as such:
-                 
-const int AIA = 9;  // (pwm) pin 9 connected to pin A-IA    Left Wheel
-const int AIB = 5;  // (pwm) pin 5 connected to pin A-IB    Left Wheel
-const int BIA = 10; // (pwm) pin 10 connected to pin B-IA   Right Wheel
-const int BIB = 6;  // (pwm) pin 6 connected to pin B-IB    Right Wheel
+const byte motor_left_pin = 9;
+const byte motor_right_pin = 10;
 
 unsigned long pingTimer[SONAR_NUM]; // Holds the times when the next ping should happen for each sensor.
 unsigned int cm[SONAR_NUM];         // Where the ping distances are stored.
@@ -42,12 +39,11 @@ void setup()
     pingTimer[i] = pingTimer[i - 1] + PING_INTERVAL;
   }
 
-  pinMode(AIA, OUTPUT); // set motor driver pins to output
-  pinMode(AIB, OUTPUT);
-  pinMode(BIA, OUTPUT);
-  pinMode(BIB, OUTPUT); 
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT); 
+
+  servo_left.attach(motor_left_pin);
+  servo_right.attach(motor_right_pin);
 }
 
 void loop() 
@@ -87,16 +83,16 @@ void oneSensorCycle()  // Sensor ping cycle complete, do something with the resu
   }
   //Serial.println();
 
-  const byte HIGH_SPEED = 255;
-  const byte LOW_SPEED = 100;
+  const byte HIGH_SPEED = 100;
+  const byte LOW_SPEED = 50;
 
   if (1)
   {
-    move_forward(HIGH_SPEED, HIGH_SPEED);
+    move_motors(HIGH_SPEED, HIGH_SPEED);
   }
   else if (cm[5] < 20) // if an obstacle is ahead
   {
-    move_forward(0,0);
+    move_motors(0,0);
     Serial.println("Stop.");
     digitalWrite(2, LOW);
     digitalWrite(3, LOW);
@@ -104,21 +100,21 @@ void oneSensorCycle()  // Sensor ping cycle complete, do something with the resu
   }
   else if (cm[4] < cm[3])
   {
-    move_forward(LOW_SPEED, HIGH_SPEED);
+    move_motors(LOW_SPEED, HIGH_SPEED);
     Serial.println("Trim Left.");
     digitalWrite(2, HIGH);
     digitalWrite(3, LOW);
   }
   else if (cm[4] > cm[3])
   {
-    move_forward(HIGH_SPEED, LOW_SPEED);
+    move_motors(HIGH_SPEED, LOW_SPEED);
     Serial.println("Trim Right.");
     digitalWrite(2, LOW);
     digitalWrite(3, HIGH);
   }
   else
   {
-    move_forward(HIGH_SPEED, HIGH_SPEED);
+    move_motors(HIGH_SPEED, HIGH_SPEED);
     Serial.println("Walk forward.");
     digitalWrite(2, HIGH);
     digitalWrite(3, HIGH);
@@ -127,14 +123,16 @@ void oneSensorCycle()  // Sensor ping cycle complete, do something with the resu
 
 // functions
 
-void move_forward(byte left, byte right)
+void move_motors(int left, int right)
+// left and right motors take speed from -100 to 100.  -100 is maximum
+// speed reverse, 0 is stop, 100 is maximum speed forward.
 {
   if (ENABLE_MOTORS)
   {
-    analogWrite(AIA, 0);
-    analogWrite(AIB, left);
-    analogWrite(BIA, 0);
-    analogWrite(BIB, right);
+    int scaled_speed = map(left, -100, 100, 0, 180);
+    servo_left.write(scaled_speed);
+    int scaled_speed = map(right, -100, 100, 0, 180);
+    servo_right.write(scaled_speed);
   }
 }
 
