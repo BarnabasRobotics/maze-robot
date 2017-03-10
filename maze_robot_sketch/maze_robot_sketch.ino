@@ -42,6 +42,9 @@ void setup()
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT); 
 
+  Servo servo_left;
+  Servo servo_right;
+  
   servo_left.attach(motor_left_pin);
   servo_right.attach(motor_right_pin);
 }
@@ -127,11 +130,13 @@ void move_motors(int left, int right)
 // left and right motors take speed from -100 to 100.  -100 is maximum
 // speed reverse, 0 is stop, 100 is maximum speed forward.
 {
+  int scaled_speed;
+  
   if (ENABLE_MOTORS)
   {
-    int scaled_speed = map(left, -100, 100, 0, 180);
+    scaled_speed = map(left, -100, 100, 0, 180);
     servo_left.write(scaled_speed);
-    int scaled_speed = map(right, -100, 100, 0, 180);
+    scaled_speed = map(right, -100, 100, 0, 180);
     servo_right.write(scaled_speed);
   }
 }
