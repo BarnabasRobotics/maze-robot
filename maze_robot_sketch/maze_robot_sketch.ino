@@ -39,9 +39,6 @@ void setup()
     pingTimer[i] = pingTimer[i - 1] + PING_INTERVAL;
   }
 
-  pinMode(2, OUTPUT);
-  pinMode(3, OUTPUT); 
-
   Servo servo_left;
   Servo servo_right;
   
@@ -86,8 +83,8 @@ void oneSensorCycle()  // Sensor ping cycle complete, do something with the resu
   }
   //Serial.println();
 
-  const byte HIGH_SPEED = 100;
-  const byte LOW_SPEED = 50;
+  const byte HIGH_SPEED =   100;
+  const byte LOW_SPEED =    80;
 
   if (1)
   {
@@ -95,32 +92,23 @@ void oneSensorCycle()  // Sensor ping cycle complete, do something with the resu
   }
   else if (cm[5] < 20) // if an obstacle is ahead
   {
-    move_motors(0,0);
+    move_motors(0, 0);
     Serial.println("Stop.");
-    digitalWrite(2, LOW);
-    digitalWrite(3, LOW);
-
   }
   else if (cm[4] < cm[3])
   {
     move_motors(LOW_SPEED, HIGH_SPEED);
     Serial.println("Trim Left.");
-    digitalWrite(2, HIGH);
-    digitalWrite(3, LOW);
   }
   else if (cm[4] > cm[3])
   {
     move_motors(HIGH_SPEED, LOW_SPEED);
     Serial.println("Trim Right.");
-    digitalWrite(2, LOW);
-    digitalWrite(3, HIGH);
   }
   else
   {
     move_motors(HIGH_SPEED, HIGH_SPEED);
     Serial.println("Walk forward.");
-    digitalWrite(2, HIGH);
-    digitalWrite(3, HIGH);
   }  
 }
 
