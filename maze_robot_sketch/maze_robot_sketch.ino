@@ -7,8 +7,8 @@ const byte ENABLE_MOTORS = 1;   // used to disable motors for software developme
 #include <Servo.h>
 
 #define SONAR_NUM     6 // Number of sensors.
-#define MAX_DISTANCE 200 // Maximum distance (in cm) to ping.
-#define PING_INTERVAL 50 // Milliseconds between sensor pings (29ms is about the min to avoid cross-sensor echo).
+#define MAX_DISTANCE 150 // Maximum distance (in cm) to ping.
+#define PING_INTERVAL 60 // Milliseconds between sensor pings (29ms is about the min to avoid cross-sensor echo).
 
 const byte motor_left_pin = 9;
 const byte motor_right_pin = 10;
@@ -84,13 +84,13 @@ void oneSensorCycle()  // Sensor ping cycle complete, do something with the resu
   //Serial.println();
 
   const byte HIGH_SPEED =   100;
-  const byte LOW_SPEED =    80;
+  const byte LOW_SPEED =    90;
 
   if (1)
   {
     move_motors(HIGH_SPEED, HIGH_SPEED);
   }
-  else if (cm[5] < 20) // if an obstacle is ahead
+  else if (cm[5] < 25) // if an obstacle is ahead
   {
     move_motors(0, 0);
     Serial.println("Stop.");
