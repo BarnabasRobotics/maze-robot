@@ -1,9 +1,9 @@
 # maze-robot
 The idea is an inexpensive, flexible robotic system which would allow people to build and program a robot capible of navigating and autonomously solving a maze!
-This builds on the Barnabas Robotics Barnabas Car Kit.  https://squareup.com/store/barnabas-robotics/item/robot-car-kit
+This builds on the [Barnabas Robotics](https://www.barnabasrobotics.com/) -> [Barnabas Racer](https://shop.barnabasrobotics.com/collections/robots-and-coding/products/barnabas-racer-arduino-compatible-2wd-servo-motor-car-kit-ages-11).
 
 Design goals:
-- Small, inexpensive two-wheeled car chassis.  Two drive wheels, two castor wheels.
+- Small, inexpensive two-wheeled car chassis.  Two drive wheels, one or two caster wheels.
 - Arduino Uno or compatible microcontroller board
 - Microcontroller board is programmable via bluetooth, through standard Arduino IDE
 - Six ultrasonic rangefinders.  Two pointed to the left, two pointed to the right, one straight ahead, one to the rear.  The rangefinders work well to show the distance to objects from around 1 inch (2 cm) to around 9 feet away (3 meters), but they have trouble when they aren't approximatley at a right angle to the object they are detecting.  If the angle is too great (over about 15 degrees) not enough of the sound bounces back for it to get a reliable range.
